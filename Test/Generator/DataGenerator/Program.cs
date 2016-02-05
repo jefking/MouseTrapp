@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Azure.WebJobs;
-
-namespace DataGenerator
+﻿namespace DataGenerator
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using Microsoft.Azure.WebJobs;
+    
     // To learn more about Microsoft Azure WebJobs SDK, please see http://go.microsoft.com/fwlink/?LinkID=320976
     class Program
     {
@@ -14,9 +14,15 @@ namespace DataGenerator
         // AzureWebJobsDashboard and AzureWebJobsStorage
         static void Main()
         {
+            var manager = new RoleTaskManager<object>(new Factory());
+            manager.OnStart(config);
+
             var host = new JobHost();
-            // The following code ensures that the WebJob will be running continuously
+            manager.Run();
+
             host.RunAndBlock();
+
+            manager.OnStop();
         }
     }
 }

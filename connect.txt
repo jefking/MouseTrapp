@@ -6,3 +6,6 @@ HostName=mousetrapp.azure-devices.net;SharedAccessKeyName=device;SharedAccessKey
 
 Storage
 DefaultEndpointsProtocol=https;AccountName=mousy;AccountKey=Mn9HxOg9ekG7RpWx8sPdyTSXuPujPpyUA8/hMbCpp3ZLaM5sWBa1vSb/039Xtr7dn0I3NKCytZBeuq3vqbw8YA==;BlobEndpoint=https://mousy.blob.core.windows.net/;TableEndpoint=https://mousy.table.core.windows.net/;QueueEndpoint=https://mousy.queue.core.windows.net/;FileEndpoint=https://mousy.file.core.windows.net/
+
+Connexion String :
+HostName=mousetrapp.azure-devices.net;DeviceId=MouseTrappIOT;SharedAccessKey=W3ayO1IDKvJ0VW56OCTRih9FnNfINpUwtlfKDRbVqlM=;GatewayHostName=ssl://MouseTrappIOT:8883

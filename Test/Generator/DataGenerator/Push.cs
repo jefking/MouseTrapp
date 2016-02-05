@@ -2,10 +2,7 @@
 using Microsoft.Azure.Devices.Client;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace DataGenerator
 {
@@ -13,10 +10,13 @@ namespace DataGenerator
     {
         public override void Run()
         {
-            var m = new SampleModel
+            var r = new Random();
+            var m = new EventModel
             {
-                Id = Guid.NewGuid(),
-                Activated = false,
+                TrapId = Guid.NewGuid(),
+                Building = "Building",
+                Location = "Location",
+                Type = (byte)r.Next(0,2),
                 Time = DateTime.UtcNow,
             };
 

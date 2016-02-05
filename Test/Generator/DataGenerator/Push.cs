@@ -8,6 +8,7 @@ namespace DataGenerator
 {
     class Push : RecurringTask
     {
+        public Push() : base(30) { }
         public override void Run()
         {
             var r = new Random();
@@ -23,7 +24,7 @@ namespace DataGenerator
             var msg = new Message(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(m)));
 
             //Send data to IoT Hub
-            var client = DeviceClient.CreateFromConnectionString("", TransportType.Http1);
+            var client = DeviceClient.CreateFromConnectionString("HostName=mousetrapp.azure-devices.net;SharedAccessKeyName=device;SharedAccessKey=H7TR2VQKteaQXittdTthxyOQAxReKgdPfeBBlyXrwWY=", TransportType.Http1);
             client.SendEventAsync(msg);
         }
     }

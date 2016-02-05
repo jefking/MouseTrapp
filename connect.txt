@@ -1,5 +1,8 @@
+Owner
+HostName=mousetrapp.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=G4Vd95gX/iSmiogmVZhlNhOkFCMO/WqpXnNVCPmmoZM=
+
 Device
 HostName=mousetrapp.azure-devices.net;SharedAccessKeyName=device;SharedAccessKey=H7TR2VQKteaQXittdTthxyOQAxReKgdPfeBBlyXrwWY=
 
 Storage
-DefaultEndpointsProtocol=https;AccountName=mousy;AccountKey=iF5kqVZYxIfjj0bAlwWLDeGVchNLmaMpeRaDuC3SqulOww95NNAMYr2AIRSUEAnx0HbLlkxGggN76LrBFDHlFw==;BlobEndpoint=https://mousy.blob.core.windows.net/
+DefaultEndpointsProtocol=https;AccountName=mousy;AccountKey=Mn9HxOg9ekG7RpWx8sPdyTSXuPujPpyUA8/hMbCpp3ZLaM5sWBa1vSb/039Xtr7dn0I3NKCytZBeuq3vqbw8YA==;BlobEndpoint=https://mousy.blob.core.windows.net/;TableEndpoint=https://mousy.table.core.windows.net/;QueueEndpoint=https://mousy.queue.core.windows.net/;FileEndpoint=https://mousy.file.core.windows.net/

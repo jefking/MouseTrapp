@@ -6,10 +6,12 @@
     using System.Text;
     using System.Threading.Tasks;
 
-    public class SampleModel
+    public class EventModel
     {
-        public Guid Id;
+        public Guid TrapId;
+        public string Building;
+        public string Location;
         public DateTime Time;
-        public bool Activated;
+        public byte Type;
     }
 }

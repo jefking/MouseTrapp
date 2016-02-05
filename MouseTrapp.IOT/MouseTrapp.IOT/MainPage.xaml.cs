@@ -1,111 +1,110 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using Windows.Devices.Gpio;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-// Enable asynchronous tasks
-using System.Threading.Tasks;
-// Enable access to the GPIO bus on the RPi2
-using Windows.Devices.Gpio;
 
-// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
+// CANITPRO.NET FTW
 
 namespace MouseTrapp.IOT
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
+
     public sealed partial class MainPage : Page
     {
-        // Define the physical pin connected to the LED.
-        private const int LED_PIN = 12;
-        // Deifne a variable to represent the pin as an object.
-        private GpioPin pin;
-        // Define a variable to hold the value of the pin (HIGH or LOW).
-        private GpioPinValue pinValue;
-        // Define a time used to control the frequency of events.
-        private DispatcherTimer timer;
-        // Define a color brushes for the on screen representation of the LED.
+        private const int LED_PIN = 6;
+        private const int BUTTON_PIN = 5;
+        private GpioPin ledPin;
+        private GpioPin buttonPin;
+        private GpioPinValue ledPinValue = GpioPinValue.High;
         private SolidColorBrush redBrush = new SolidColorBrush(Windows.UI.Colors.Red);
         private SolidColorBrush grayBrush = new SolidColorBrush(Windows.UI.Colors.LightGray);
-
         public MainPage()
         {
-            this.InitializeComponent();
-
-            // Create an instance of a Timer that will raise an event every 500ms
-            timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromMilliseconds(500);
-            timer.Tick += Timer_Tick;
-
-            // Initialize the GPIO bus
-            InitGpioAsync();
+            InitializeComponent();
+            InitGPIO();
         }
 
-        private async Task InitGpioAsync()
+        private void InitGPIO()
         {
-            // Get the default GPIO controller
-            var gpio = await GpioController.GetDefaultAsync();
+            var gpio = GpioController.GetDefault();
 
-            // If the default GPIO controller is not present, then the device 
-            // running this app isn't capable of GPIO operations.
+            // Show an error if there is no GPIO controller
             if (gpio == null)
             {
-                pin = null;
                 GpioStatus.Text = "There is no GPIO controller on this device.";
                 return;
             }
 
-            // Open the GPIO channel
-            pin = gpio.OpenPin(LED_PIN);
+            buttonPin = gpio.OpenPin(BUTTON_PIN);
+            ledPin = gpio.OpenPin(LED_PIN);
 
-            // As long as the pin object is not null, proceed
-            if (pin != null)
-            {
-                // Define the pin as an output pin
-                pin.SetDriveMode(GpioPinDriveMode.Output);
-                // Define the initial status as LOW (off)
-                pinValue = GpioPinValue.Low;
-                // Write the tate to the pin
-                pin.Write(pinValue);
-                // Update the on screen text to indicate that the GPIO is ready
-                GpioStatus.Text = "GPIO pin is initialized correctly.";
-                // Start the timer.
-                timer.Start();
-            }
+            // Initialize LED to the OFF state by first writing a HIGH value
+            // We write HIGH because the LED is wired in a active LOW configuration
+            ledPin.Write(GpioPinValue.High);
+            ledPin.SetDriveMode(GpioPinDriveMode.Output);
 
-        }
-
-        private void Timer_Tick(object sender, object e)
-        {
-            // This Timer event will be raised on each timer interval (defined above)
-
-            if (pinValue == GpioPinValue.Low)
-            {
-                // If the current state of the pin is LOW (off), then set it to HIGH (on)
-                // and update the on screen UI to represent the LED in the on state
-                pinValue = GpioPinValue.High;
-                LedGraphic.Fill = redBrush;
-            }
+            // Check if input pull-up resistors are supported
+            if (buttonPin.IsDriveModeSupported(GpioPinDriveMode.InputPullUp))
+                buttonPin.SetDriveMode(GpioPinDriveMode.InputPullUp);
             else
-            {
-                // If the current state of the pin is HIGH (on), then set it to LOW (off)
-                // and update the on screen UI to represent the LED in the off state
-                pinValue = GpioPinValue.Low;
-                LedGraphic.Fill = grayBrush;
-            }
-            // Write the state to to pin
-            pin.Write(pinValue);
+                buttonPin.SetDriveMode(GpioPinDriveMode.Input);
 
+            // Set a debounce timeout to filter out switch bounce noise from a button press
+            buttonPin.DebounceTimeout = TimeSpan.FromMilliseconds(5);
+
+            // Register for the ValueChanged event so our buttonPin_ValueChanged 
+            // function is called when the button is pressed
+            buttonPin.ValueChanged += buttonPin_ValueChanged;
+
+            GpioStatus.Text = "GPIO pins initialized correctly.";
         }
+
+        private void buttonPin_ValueChanged(GpioPin sender, GpioPinValueChangedEventArgs e)
+        {
+            //// toggle the state of the LED every time the button is pressed
+            //if (e.Edge == GpioPinEdge.FallingEdge)
+            //{
+            //    ledPinValue = (ledPinValue == GpioPinValue.Low) ?
+            //        GpioPinValue.High : GpioPinValue.Low;
+            //    ledPin.Write(ledPinValue);
+            //}
+
+            // need to invoke UI updates on the UI thread because this event
+            // handler gets invoked on a separate thread.
+            var task = Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => {
+                if (buttonPin.Read() == GpioPinValue.High)
+                {
+                    ledPinValue = GpioPinValue.High;
+                    ledEllipse.Fill = grayBrush;
+                    ledPin.Write(ledPinValue);
+                    GpioStatus.Text = "No Mouse...";
+                }
+                if (buttonPin.Read() == GpioPinValue.Low)
+                {
+                    ledPinValue = GpioPinValue.Low;
+                    ledEllipse.Fill = redBrush;
+                    ledPin.Write(ledPinValue);
+                    GpioStatus.Text = "Dead Mouse...";
+                }
+
+                //if (e.Edge == GpioPinEdge.FallingEdge)
+                //{
+                //    ledEllipse.Fill = (ledPinValue == GpioPinValue.Low) ? redBrush : grayBrush;
+                //    ledPinValue = (ledPinValue == GpioPinValue.Low) ? GpioPinValue.High : GpioPinValue.Low;
+                //        ledPin.Write(ledPinValue);
+                //    GpioStatus.Text = "Dead Mouse...";
+                //}
+                //else
+                //{
+                //    ledEllipse.Fill = (ledPinValue == GpioPinValue.Low) ? redBrush : grayBrush;
+                //    ledPinValue = (ledPinValue == GpioPinValue.Low) ? GpioPinValue.High : GpioPinValue.Low;
+                //    ledPin.Write(ledPinValue);
+                //    GpioStatus.Text = "No Mouse";
+                //}
+            });
+        }
+
+
     }
 }

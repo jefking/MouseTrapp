@@ -11,7 +11,7 @@
         static void Main()
         {
             var manager = new RoleTaskManager<object>(new Factory());
-            manager.OnStart(config);
+            manager.OnStart();
 
             var host = new JobHost();
             manager.Run();

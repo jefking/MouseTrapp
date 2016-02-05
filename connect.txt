@@ -1,1 +1,5 @@
+Device
 HostName=mousetrapp.azure-devices.net;SharedAccessKeyName=device;SharedAccessKey=H7TR2VQKteaQXittdTthxyOQAxReKgdPfeBBlyXrwWY=
+
+Storage
+DefaultEndpointsProtocol=https;AccountName=mousy;AccountKey=iF5kqVZYxIfjj0bAlwWLDeGVchNLmaMpeRaDuC3SqulOww95NNAMYr2AIRSUEAnx0HbLlkxGggN76LrBFDHlFw==;BlobEndpoint=https://mousy.blob.core.windows.net/

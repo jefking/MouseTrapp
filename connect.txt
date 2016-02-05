@@ -1,3 +1,6 @@
+Owner
+HostName=mousetrapp.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=G4Vd95gX/iSmiogmVZhlNhOkFCMO/WqpXnNVCPmmoZM=
+
 Device
 HostName=mousetrapp.azure-devices.net;SharedAccessKeyName=device;SharedAccessKey=H7TR2VQKteaQXittdTthxyOQAxReKgdPfeBBlyXrwWY=
 

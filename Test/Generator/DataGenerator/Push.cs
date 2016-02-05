@@ -8,6 +8,7 @@ namespace DataGenerator
 {
     class Push : RecurringTask
     {
+        public Push() : base(30) { }
         public override void Run()
         {
             var r = new Random();

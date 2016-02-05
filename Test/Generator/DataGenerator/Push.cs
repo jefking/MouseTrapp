@@ -25,7 +25,7 @@ namespace DataGenerator
             var msg = new Message(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(m)));
             
             //Send data to IoT Hub
-            var client = DeviceClient.CreateFromConnectionString(connString, TransportType.Http1);
+            var client = DeviceClient.CreateFromConnectionString(connString, TransportType.Amqp);
             client.SendEventAsync(msg).Wait();
         }
     }

@@ -9,3 +9,7 @@ DefaultEndpointsProtocol=https;AccountName=mousy;AccountKey=Mn9HxOg9ekG7RpWx8sPd
 
 Connexion String :
 HostName=mousetrapp.azure-devices.net;DeviceId=MouseTrappIOT;SharedAccessKey=W3ayO1IDKvJ0VW56OCTRih9FnNfINpUwtlfKDRbVqlM=;GatewayHostName=ssl://MouseTrappIOT:8883
+
+
+SQL Server
+Server=tcp:mousy.database.windows.net,1433;Database=mouse;User ID=mouseAdmin@mousy;Password=asdsa^&*99;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;

@@ -17,26 +17,27 @@
     <link href="css/index.css" rel="stylesheet" />
 </head>
 <body>
-    <div class="container-fluid">
-        <div class="input-group" ng-hide="pressed">
-            <h3>Drop Off</h3>
-            <div class="input-group input-group-lg">
-                <input type="text" class="form-control" placeholder="Trap Id" name="trapId"  />
+    <div class="container-fluid" ng-hide="pressed">
+        <div class="input-group">
+                <h3>Drop Off</h3>
+                <div class="input-group input-group-lg">
+                    <input type="text" class="form-control" placeholder="Trap Id" name="trapId" />
+                </div>
+                <input type="text" class="form-control hidden" placeholder="Minutes" name="minutes" />
+                <div class="input-group input-group-lg">
+                    <input type="text" class="form-control" placeholder="Building" name="building" />
+                </div>
+                <div class="input-group input-group-lg">
+                    <input type="text" class="form-control" placeholder="Location" name="location" />
+                </div>
+                <button type="button" class="btn btn-default btn-lg" ng-click="pressed = true; time = 631.34">
+                    <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> When should I come back?
+                </button>
             </div>
-            <input type="text" class="form-control hidden" placeholder="Minutes" name="minutes" />
-            <div class="input-group input-group-lg">
-                <input type="text" class="form-control" placeholder="Building" name="building" />
-            </div>
-            <div class="input-group input-group-lg">
-                <input type="text" class="form-control" placeholder="Location" name="location" />
-            </div>
-            <button type="button" class="btn btn-default btn-lg" ng-model="pressed">
-                <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> When should I come back?
-            </button>
-        </div>
-        <div class="alert alert-info hidden" ng-show="pressed" role="alert">Come back in 13 minutes for a tasty rat!</div>
     </div>
-
+    <div class="jumbotron" ng-show="pressed">
+        <div class="alert alert-info" role="alert">Come back in {{time}} minutes for a tasty rat!</div>
+    </div>
         <!-- Cordova reference, this is added to your app when it's built. -->
         <script src="cordova.js"></script>
         <script src="scripts/platformOverrides.js"></script>

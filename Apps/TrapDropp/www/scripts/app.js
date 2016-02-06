@@ -1,3 +1,9 @@
 ﻿'use strict';
 
-var ratApp = angular.module('ratApp', []);
+var app = angular.module('ratApp', []);
+
+app.controller('callout', function ($scope) {
+
+    scope.time = Math.random();
+
+});

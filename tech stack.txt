@@ -1,5 +1,5 @@
-Technologies
 PowerShell
+-- Drive deployment
 Cordova; cross platform
 - Angular JS
 - Bootstrap
@@ -11,13 +11,16 @@ VSTS
 Dacpac; database schema
 Rasberry Pi
 - Windows 10 IoT
+- UWP
 Mouse Trap
 -- Electric contacts
 Azure
-- IoT Suite
+- IoT Hub
 - SQL Azure
 - Machine Learning
+-- Machine Learning API
 - Stream Analytics
 - Blob/Table storage
 - Web Jobs
 PowerBi
+C#; Web Job

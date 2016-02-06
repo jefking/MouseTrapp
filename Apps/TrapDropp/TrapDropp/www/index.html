@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en" ng-app="ratApp">
 <head>
     <meta charset="utf-8" />
 
@@ -8,14 +8,22 @@
         For details, see http://go.microsoft.com/fwlink/?LinkID=617521
     -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">
-    <title>TrapDropp</title>
+    <title>Trap Dropp</title>
+    <meta name="author" content="Jef King">
+    <link rel="icon" href="favicon.ico">
 
     <!-- TrapDropp references -->
     <link href="css/bootstrap.min.css" rel="stylesheet" />
     <link href="css/index.css" rel="stylesheet" />
 </head>
 <body>
-    <p>Hello, your application is ready!</p>
+    <div>
+        <input type="input" name="building" />
+        <input type="input" name="location" />
+        <button type="button" class="btn btn-default btn-lg">
+            <span class="glyphicon glyphicon-star" aria-hidden="true"></span> Star
+        </button>
+    </div>
 
     <!-- Cordova reference, this is added to your app when it's built. -->
     <script src="cordova.js"></script>

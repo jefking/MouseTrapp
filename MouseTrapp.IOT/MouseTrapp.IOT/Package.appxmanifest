@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="MouseTrappIOT" Publisher="CN=juliens" Version="1.0.2.0" />
+  <Identity Name="MouseTrappIOT" Publisher="CN=juliens" Version="2.0.0.0" />
   <mp:PhoneIdentity PhoneProductId="b9112b13-4521-43ea-ab15-a87b46bf29ab" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>MouseTrapp.IOT</DisplayName>

@@ -85,7 +85,7 @@ namespace MouseTrapp.IOT
             //    ledPinValue = (ledPinValue == GpioPinValue.Low) ?
             //        GpioPinValue.High : GpioPinValue.Low;
             //    ledPin.Write(ledPinValue);
-            //}
+            //} 
 
             // need to invoke UI updates on the UI thread because this event
             // handler gets invoked on a separate thread.

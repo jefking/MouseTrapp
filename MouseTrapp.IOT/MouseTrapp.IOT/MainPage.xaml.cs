@@ -4,6 +4,9 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
+using Microsoft.Azure.Devices.Client;
+using System.Text;
+using System.Threading.Tasks;
 
 // CANITPRO.NET FTW
 
@@ -14,11 +17,22 @@ namespace MouseTrapp.IOT
     {
         private const int LED_PIN = 6;
         private const int BUTTON_PIN = 5;
+
+        private DeviceClient deviceClient;
+
         private GpioPin ledPin;
         private GpioPin buttonPin;
         private GpioPinValue ledPinValue = GpioPinValue.High;
         private SolidColorBrush redBrush = new SolidColorBrush(Windows.UI.Colors.Red);
         private SolidColorBrush grayBrush = new SolidColorBrush(Windows.UI.Colors.LightGray);
+
+        // Use the device specific connection string here
+        private const string IOT_HUB_CONN_STRING = "HostName=mousetrapp.azure-devices.net;DeviceId=MouseTrappIOT;SharedAccessKey=W3ayO1IDKvJ0VW56OCTRih9FnNfINpUwtlfKDRbVqlM=;GatewayHostName=ssl://MouseTrappIOT:8883";
+        // Use the name of your Azure IoT device here - this should be the same as the name in the connections string
+        private const string IOT_HUB_DEVICE = "MT01";
+        // Provide a short description of the location of the device, such as 'Home Office' or 'Garage'
+        private const string IOT_HUB_DEVICE_LOCATION = "MSFT - Building 33";
+
         public MainPage()
         {
             InitializeComponent();
@@ -27,6 +41,9 @@ namespace MouseTrapp.IOT
 
         private void InitGPIO()
         {
+            // Instantiate the Azure device client
+            deviceClient = DeviceClient.CreateFromConnectionString(IOT_HUB_CONN_STRING);
+
             var gpio = GpioController.GetDefault();
 
             // Show an error if there is no GPIO controller
@@ -79,6 +96,7 @@ namespace MouseTrapp.IOT
                     ledEllipse.Fill = grayBrush;
                     ledPin.Write(ledPinValue);
                     GpioStatus.Text = "No Mouse...";
+                    SendMessageToIoTHubAsync(1);
                 }
                 if (buttonPin.Read() == GpioPinValue.Low)
                 {
@@ -86,25 +104,46 @@ namespace MouseTrapp.IOT
                     ledEllipse.Fill = redBrush;
                     ledPin.Write(ledPinValue);
                     GpioStatus.Text = "Dead Mouse...";
+                    SendMessageToIoTHubAsync(2);
                 }
-
-                //if (e.Edge == GpioPinEdge.FallingEdge)
-                //{
-                //    ledEllipse.Fill = (ledPinValue == GpioPinValue.Low) ? redBrush : grayBrush;
-                //    ledPinValue = (ledPinValue == GpioPinValue.Low) ? GpioPinValue.High : GpioPinValue.Low;
-                //        ledPin.Write(ledPinValue);
-                //    GpioStatus.Text = "Dead Mouse...";
-                //}
-                //else
-                //{
-                //    ledEllipse.Fill = (ledPinValue == GpioPinValue.Low) ? redBrush : grayBrush;
-                //    ledPinValue = (ledPinValue == GpioPinValue.Low) ? GpioPinValue.High : GpioPinValue.Low;
-                //    ledPin.Write(ledPinValue);
-                //    GpioStatus.Text = "No Mouse";
-                //}
             });
         }
 
+        private async Task SendMessageToIoTHubAsync(int status)
+        {
+            try
+            {
+                var payload = "{\"TrapId\": \"" +
+                    "DC60269A-81FF-4445-9822-FE68C28FC7D1" +
+                    "\", \"Building\": \"" +
+                    IOT_HUB_DEVICE_LOCATION +
+                    "\", \"Location\": \"" +
+                    IOT_HUB_DEVICE_LOCATION +
+                    "\", \"Type\": " +
+                    status +
+                    ", \"Time\": " +
+                    DateTime.Now.ToLocalTime().ToString() +
+                    "\"}";
 
+                // UI updates must be invoked on the UI thread
+                var task = this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                {
+                    MessageLog.Text = "Sending message: " + payload + "\n" + MessageLog.Text;
+                });
+
+                var msg = new Message(Encoding.UTF8.GetBytes(payload));
+
+                await deviceClient.SendEventAsync(msg);
+            }
+            catch (Exception ex)
+            {
+                // UI updates must be invoked on the UI thread
+                var task = this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                {
+                    MessageLog.Text = "Sending message: " + ex.Message + "\n" + MessageLog.Text;
+                });
+            }
+
+        }
     }
 }

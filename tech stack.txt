@@ -1,0 +1,23 @@
+Technologies
+PowerShell
+Cordova; cross platform
+- Angular JS
+- Bootstrap
+GitHub; dev in the open
+VSTS
+- Build
+- Package
+- Release
+Dacpac; database schema
+Rasberry Pi
+- Windows 10 IoT
+Mouse Trap
+-- Electric contacts
+Azure
+- IoT Suite
+- SQL Azure
+- Machine Learning
+- Stream Analytics
+- Blob/Table storage
+- Web Jobs
+PowerBi

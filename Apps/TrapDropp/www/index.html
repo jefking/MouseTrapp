@@ -19,7 +19,7 @@
 <body>
     <div class="container-fluid" ng-hide="pressed">
         <div class="input-group">
-                <h3>Drop Off</h3>
+                <img src="images/logo.png" width="100%"/>
                 <div class="input-group input-group-lg">
                     <input type="text" class="form-control" placeholder="Trap Id" name="trapId" />
                 </div>
@@ -37,6 +37,9 @@
     </div>
     <div class="jumbotron" ng-show="pressed">
         <div class="alert alert-info" role="alert">Come back in {{time}} minutes for a tasty rat!</div>
+        <button type="button" class="btn btn-default btn-lg" ng-click="pressed = false">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        </button>
     </div>
         <!-- Cordova reference, this is added to your app when it's built. -->
         <script src="cordova.js"></script>

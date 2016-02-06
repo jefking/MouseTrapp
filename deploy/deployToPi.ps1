@@ -7,4 +7,4 @@ Remove-Item W:\deploy\* -Recurse
 
 xcopy C:\Data\Hackathon\agent\_work\1\b\AppxPackages\MouseTrapp.IOT_2.0.0.0_ARM_Test W:\deploy /i /s
 
-Invoke-Command -ComputerName mousetrapp -ScriptBlock { ping google.com } -credential $mycreds
+Invoke-Command -ComputerName mousetrapp -ScriptBlock { shutdown /r /t 0 } -credential $mycreds

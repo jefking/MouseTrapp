@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="DataGenerator.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="IotHubConnectionString" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">HostName=MouseTrapIoTHub.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=CC+SFsbh6upiMVKmKiV89p7fqI+erM4enYykFLmTWCA=</Value>
+    </Setting>
+    <Setting Name="TestDeviceName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">myFirstDevice</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
